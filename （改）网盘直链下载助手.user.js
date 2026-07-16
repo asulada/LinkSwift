@@ -6685,6 +6685,51 @@ a.downloadSubtitle:disabled, button.downloadSubtitle:disabled{background-color:$
 			base.waitForKeyElements(config.$xunlei.mount.home, (element) => {
 				temp.page = temp.main.detectPage();
 				if ($(".pl-button").length > 0 || !temp.page || temp.page !== "home") return;
+				const style = document.createElement('style');
+				style.innerHTML = `
+                .pan-wrapper-inner{min-width:unset}
+                .pan-wrapper-asider,.pan-list-header{
+                	display:none;
+                }
+                .pan-wrapper-content section div div:first-of-type{
+               		flex-direction: row;flex-wrap: wrap;
+               
+					[class^="FileMenu__searchWrapper--"]{
+						position:unset;
+						margin-left: 10px;
+						width: 80vw;
+					}
+                }
+				/* 选择该 div 下的所有直接子元素 (*) */
+				.pan-wrapper-content section div div:first-of-type > * {
+					margin-top: 10px !important; /* 统一改为 20px，根据需要调整 */
+				}
+				/* 2. 强制重置孙子辈（及其以后）的边距，防止视觉污染 */
+				.pan-wrapper-content section div div:first-of-type > * * {
+					margin-top: 0 !important;
+				}
+				.pan-content .pan-list li > div:nth-of-type(1){
+					min-height: 60px;
+					flex-direction: row;
+					
+					[class^="SourceListItem__checkbox--"]{
+						width: 10vw;
+					}
+					[class^="SourceListItem__content--"]{
+							width: 80vw;
+							flex-direction: row;
+							flex-wrap: wrap;
+					
+							.pan-list-info{
+							}
+							[class^="SourceListItem__title--"]{
+								width:100vw;
+								flex: unset;
+				   
+							}
+					} 
+				}`;
+				document.head.appendChild(style);
 				let $button = $(`<div class="xunlei-button pl-button"><i class="xlpfont xlp-download"></i><span style="font-size:13px;margin-left:6px;">下载助手</span>
 					<ul class="pl-dropdown-menu" style="top:34px;">
 						<li class="pl-button-mode" data-mode="api"><svg class="pl-icon"><use xlink:href="#pl-icon-fa-downward"/></svg>API 下载</li>
